@@ -1,0 +1,24 @@
+{
+    "name": "seafarer/laravel-ueditor-server",
+    "description": "",
+    "authors": [
+        {
+            "name": "seafarer",
+            "email": "develop@seafarer.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/controllers"
+        ],
+        "psr-0": {
+            "Seafarer\\LaravelUeditorServer\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
