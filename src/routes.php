@@ -1,3 +1,5 @@
 <?php
 
-Route::any('ueditor/controller', 'UeditorController@getAction');
+Route::group(['before' => 'auth'], function() {
+    Route::any('ueditor/controller', 'UeditorController@getAction');
+});
