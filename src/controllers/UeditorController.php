@@ -1,5 +1,6 @@
 <?php
 use Seafarer\LaravelUeditorServer\UeditorUploader;
+use Seafarer\LaravelUeditorServer\ListsQiniu;
 
 class UeditorController extends BaseController {
 
@@ -192,7 +193,12 @@ class UeditorController extends BaseController {
 		$listSize   = Config::get('laravel-ueditor-server::upload.imageManagerListSize');
 		$path       = Config::get('laravel-ueditor-server::upload.imageManagerListPath');
 
-		return $this->processList($allowFiles, $listSize, $path);
+        if (Config::get('laravel-ueditor-server::core.mode') == 'local') {
+		    return $this->processList($allowFiles, $listSize, $path);
+        } else if (Config::get('laravel-ueditor-server::core.mode') == 'qiniu') {
+            $result = with(new ListsQiniu($allowFiles, $listSize, $path, App::make('Illuminate\Http\Request')))->getList();
+            return Response::json($result, 200, [], JSON_UNESCAPED_UNICODE);
+        }
 	}
 
 	/**

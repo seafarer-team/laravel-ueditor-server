@@ -1,9 +1,19 @@
 <?php
 use Illuminate\Support\Facades\Config;
 
-//$url = Config::get('app.url').'/packages/zhuzhichao/ueditor/';
 $imgBaseUrl = Config::get('app.url');
+
 return [
+
+    'core' => [
+        'mode' => 'local', //local或qiniu
+        'qiniu' => [
+            'accessKey' => '',
+            'secretKey' => '',
+            'bucket' => '',
+            'url' => '' //CDN域名,注意带上http://
+        ]
+    ],
 
 	/* 前后端通信相关的配置 */
 	'upload' => [
