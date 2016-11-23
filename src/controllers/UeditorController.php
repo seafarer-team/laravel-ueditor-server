@@ -197,7 +197,7 @@ class UeditorController extends BaseController {
 		    return $this->processList($allowFiles, $listSize, $path);
         } else if (Config::get('laravel-ueditor-server::core.mode') == 'qiniu') {
             $result = with(new ListsQiniu($allowFiles, $listSize, $path, App::make('Illuminate\Http\Request')))->getList();
-            return Response::json($result, 200, [], JSON_UNESCAPED_UNICODE);
+            return json_encode($result);
         }
 	}
 
