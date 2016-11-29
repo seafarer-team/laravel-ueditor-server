@@ -4,6 +4,8 @@ use Seafarer\LaravelUeditorServer\ListsQiniu;
 
 class UeditorController extends BaseController {
 
+    use Seafarer\LaravelUeditorServer\DbMirrorTrait;
+
     /**
 	 * 默认的上传方式
 	 * @var string
@@ -69,7 +71,11 @@ class UeditorController extends BaseController {
 		$fieldName = Config::get('laravel-ueditor-server::upload.imageFieldName');
 		$up        = new UeditorUploader($fieldName, $config, $this->base64);
 
-		return Response::json($up->getFileInfo());
+        $response = $up->getFileInfo();
+
+        $this->dbMirrorSave($response);
+
+		return Response::json($response);
 	}
 
 	/**
@@ -194,10 +200,9 @@ class UeditorController extends BaseController {
 		$path       = Config::get('laravel-ueditor-server::upload.imageManagerListPath');
 
         if (Config::get('laravel-ueditor-server::core.mode') == 'local') {
-		    return $this->processList($allowFiles, $listSize, $path);
+		    return $this->dbMirrorList($allowFiles, $listSize, $path);
         } else if (Config::get('laravel-ueditor-server::core.mode') == 'qiniu') {
-            $result = with(new ListsQiniu($allowFiles, $listSize, $path, App::make('Illuminate\Http\Request')))->getList();
-            return json_encode($result);
+		    return $this->dbMirrorList($allowFiles, $listSize, $path);
         }
 	}
 
